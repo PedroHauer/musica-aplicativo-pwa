@@ -1,0 +1,70 @@
+.cadastro-musicas__estrelas {
+  margin: 30px 0;
+  text-align: center;
+}
+
+.cadastro-musicas__estrelas label {
+  display: block;
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 12px;
+}
+
+.cadastro-musicas__grupo-estrelas {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.estrela {
+  color: #6b7280;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.estrela:hover {
+  transform: scale(1.15);
+}
+
+.estrela.ativa {
+  color: #facc15;
+  filter: drop-shadow(0 0 6px rgba(250, 204, 21, 0.4));
+}
+
+.botao-voltar {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+  padding: 0;
+  transition: 0.2s;
+}
+
+.botao-voltar:hover {
+  transform: translateX(-4px);
+  color: #22c55e;
+}
+
+form {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .cadastro-musicas__estrelas label {
+    font-size: 18px;
+  }
+
+  .botao-voltar {
+    margin-bottom: 16px;
+  }
+
+  .estrela {
+    font-size: 34px;
+  }
+}
