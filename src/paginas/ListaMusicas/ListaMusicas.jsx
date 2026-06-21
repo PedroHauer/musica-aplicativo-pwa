@@ -3,6 +3,7 @@ import { useState } from "react";
 import "./ListaMusicas.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { obterUsuarioLogado } from "../../services/authService";
 import {
   MdMic,
   MdMusicNote,
@@ -16,9 +17,16 @@ import {
 function ListaMusicas() {
   const navigate = useNavigate();
 
-  const [musicas, setMusicas] = useState(
-    JSON.parse(localStorage.getItem("musicas")) || []
-  );
+  const usuarioLogado = obterUsuarioLogado();
+
+  const [musicas, setMusicas] = useState(() => {
+    const todasMusicas =
+      JSON.parse(localStorage.getItem("musicas")) || [];
+
+    return todasMusicas.filter(
+      (musica) => musica.usuarioId === usuarioLogado?.id
+    );
+  });
 
   const [termoBusca, setTermoBusca] = useState("");
 
@@ -44,9 +52,16 @@ function ListaMusicas() {
 
     setMusicas(novasMusicas);
 
+    const todasMusicas =
+      JSON.parse(localStorage.getItem("musicas")) || [];
+
+    const listaAtualizada = todasMusicas.filter(
+      (musica) => musica.id !== idParaRemover
+    );
+
     localStorage.setItem(
       "musicas",
-      JSON.stringify(novasMusicas)
+      JSON.stringify(listaAtualizada)
     );
 
     toast.success("Música excluída com sucesso!");
@@ -56,21 +71,18 @@ function ListaMusicas() {
     let estrelas = "";
 
     for (let i = 1; i <= 5; i++) {
-      if (i <= nota) {
-        estrelas += "★";
-      } else {
-        estrelas += "☆";
-      }
+      estrelas += i <= nota ? "★" : "☆";
     }
 
     return estrelas;
   }
 
   const musicasFiltradas = [...musicas]
-    .filter((musica) =>
-      musica.nome.toLowerCase().includes(termoBusca.toLowerCase()) ||
-      musica.artista.toLowerCase().includes(termoBusca.toLowerCase()) ||
-      musica.genero.toLowerCase().includes(termoBusca.toLowerCase())
+    .filter(
+      (musica) =>
+        musica.nome.toLowerCase().includes(termoBusca.toLowerCase()) ||
+        musica.artista.toLowerCase().includes(termoBusca.toLowerCase()) ||
+        musica.genero.toLowerCase().includes(termoBusca.toLowerCase())
     )
     .sort((a, b) => b.nota - a.nota);
 
@@ -93,7 +105,7 @@ function ListaMusicas() {
       />
 
       {musicasFiltradas.length === 0 ? (
-        <p>Nenhuma música encontrada</p>
+        <p>Nenhuma música cadastrada para este usuário.</p>
       ) : (
         musicasFiltradas.map((musica) => (
           <div key={musica.id} className="lista-musicas__card">

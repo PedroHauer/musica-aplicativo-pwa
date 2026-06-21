@@ -5,11 +5,14 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { MdStar, MdArrowBack } from "react-icons/md";
+import { obterUsuarioLogado } from "../../services/authService";
 import "./CadastroMusicas.css";
 
 function CadastroMusicas() {
   const { id } = useParams();
   const navigate = useNavigate();
+
+  const usuarioLogado = obterUsuarioLogado();
 
   const musicasSalvas =
     JSON.parse(localStorage.getItem("musicas")) || [];
@@ -53,6 +56,7 @@ function CadastroMusicas() {
 
     const novaMusica = {
       id: musicaEmEdicao?.id || Date.now(),
+      usuarioId: usuarioLogado.id,
       nome,
       artista,
       genero,

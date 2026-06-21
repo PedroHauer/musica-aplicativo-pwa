@@ -1,10 +1,16 @@
 import BotaoCustomizado from "../../componentes/BotaoCustomizado/BotaoCustomizado";
 import Principal from "../../componentes/Principal/Principal";
 import { useNavigate } from "react-router-dom";
+import { logoutUsuario } from "../../services/authService";
 import "./PaginaInicial.css";
 
 function PaginaInicial() {
   const navigate = useNavigate();
+
+  function sair() {
+    logoutUsuario();
+    navigate("/login");
+  }
 
   return (
     <Principal>
@@ -36,6 +42,13 @@ function PaginaInicial() {
             aoClicar={() => navigate("/lista-musicas")}
           >
             Lista de Músicas
+          </BotaoCustomizado>
+
+          <BotaoCustomizado
+            tipo="secundario"
+            aoClicar={sair}
+          >
+            Sair
           </BotaoCustomizado>
         </div>
       </div>

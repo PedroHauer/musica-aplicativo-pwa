@@ -7,23 +7,51 @@ import { ToastContainer } from "react-toastify";
 import PaginaInicial from "./paginas/PaginaInicial/PaginaInicial";
 import CadastroMusicas from "./paginas/CadastroMusicas/CadastroMusicas";
 import ListaMusicas from "./paginas/ListaMusicas/ListaMusicas";
+import CadastroUsuario from "./paginas/CadastroUsuario/CadastroUsuario";
+import Login from "./paginas/Login/Login";
+
+import RotaProtegida from "./componentes/RotaProtegida/RotaProtegida";
 
 const roteador = createBrowserRouter([
   {
     path: "",
-    element: <PaginaInicial />,
+    element: (
+      <RotaProtegida>
+        <PaginaInicial />
+      </RotaProtegida>
+    ),
+  },
+  {
+    path: "login",
+    element: <Login />,
+  },
+  {
+    path: "cadastro-usuario",
+    element: <CadastroUsuario />,
   },
   {
     path: "cadastro-musicas",
-    element: <CadastroMusicas />,
+    element: (
+      <RotaProtegida>
+        <CadastroMusicas />
+      </RotaProtegida>
+    ),
   },
   {
     path: "cadastro-musicas/:id",
-    element: <CadastroMusicas />,
+    element: (
+      <RotaProtegida>
+        <CadastroMusicas />
+      </RotaProtegida>
+    ),
   },
   {
     path: "lista-musicas",
-    element: <ListaMusicas />,
+    element: (
+      <RotaProtegida>
+        <ListaMusicas />
+      </RotaProtegida>
+    ),
   },
   {
     path: "*",
